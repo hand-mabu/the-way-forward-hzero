@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hand.infra.mapper.OrderInfoMapper">
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseResultMap" type="com.hand.domain.entity.OrderInfo">
+        <result column="id" property="id" jdbcType="DECIMAL"/>
+        <result column="user_id" property="userId" jdbcType="DECIMAL"/>
+        <result column="goods_id" property="goodsId" jdbcType="DECIMAL"/>
+        <result column="addr_id" property="addrId" jdbcType="DECIMAL"/>
+        <result column="goods_name" property="goodsName" jdbcType="VARCHAR"/>
+        <result column="goods_count" property="goodsCount" jdbcType="DECIMAL"/>
+        <result column="goods_price" property="goodsPrice" jdbcType="DECIMAL"/>
+        <result column="order_channel" property="orderChannel" jdbcType="DECIMAL"/>
+        <result column="status" property="status" jdbcType="DECIMAL"/>
+        <result column="create_date" property="createDate" jdbcType="DATE"/>
+        <result column="pay_date" property="payDate" jdbcType="DATE"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, user_id, goods_id, addr_id, goods_name, goods_count, goods_price, order_channel, 
+    status, create_date, pay_date
+  </sql>
+</mapper>

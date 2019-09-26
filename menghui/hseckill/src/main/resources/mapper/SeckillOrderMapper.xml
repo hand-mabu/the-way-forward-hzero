@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hand.infra.mapper.SeckillOrderMapper">
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseResultMap" type="com.hand.domain.entity.SeckillOrder">
+        <result column="id" property="id" jdbcType="DECIMAL"/>
+        <result column="user_id" property="userId" jdbcType="DECIMAL"/>
+        <result column="order_id" property="orderId" jdbcType="DECIMAL"/>
+        <result column="goods_id" property="goodsId" jdbcType="DECIMAL"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, user_id, order_id, goods_id
+    </sql>
+
+    <select id="selectByUserIdAndGoodsId" resultMap="BaseResultMap" parameterType="map">
+        select
+        <include refid="Base_Column_List"/>
+        from seckill_order
+        where user_id = #{userId,jdbcType=BIGINT}
+        and goods_id = #{goodsId,jdbcType=BIGINT}
+    </select>
+</mapper>
