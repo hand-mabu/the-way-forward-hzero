@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.hand.flashkill.infra.mapper.FlashkillgoodsMapper">
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap id="BaseResultMap" type="org.hand.flashkill.domain.entity.Flashkillgoods">
+        <result column="ID" property="id" jdbcType="DECIMAL"/>
+        <result column="GOODS_NAME" property="goodsName" jdbcType="VARCHAR"/>
+        <result column="INVENTORY" property="inventory" jdbcType="DECIMAL"/>
+        <result column="START_TIME" property="startTime" jdbcType="DATE"/>
+        <result column="COUNTDOWN_TIME" property="countdownTime" jdbcType="DECIMAL"/>
+        <result column="IMG_ADRESS" property="imgAdress" jdbcType="VARCHAR"/>
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL"/>
+        <result column="CREATION_DATE" property="creationDate" jdbcType="DATE"/>
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL"/>
+        <result column="LAST_UPDATE_DATE" property="lastUpdateDate" jdbcType="DATE"/>
+        <result column="OBJECT_VERSION_NUMBER" property="objectVersionNumber" jdbcType="DECIMAL"/>
+    </resultMap>
+</mapper>
