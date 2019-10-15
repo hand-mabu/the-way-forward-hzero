@@ -1,7 +1,13 @@
 package org.hand.flashkill.api.controller.v1;
 
+import io.choerodon.core.oauth.CustomUserDetails;
 import io.swagger.annotations.Api;
 import org.hand.flashkill.config.SwaggerTags;
+import org.hand.flashkill.domain.entity.Flashkillgoods;
+import org.hand.flashkill.domain.repository.FlashkillgoodsRepository;
+import org.hzero.core.exception.MessageException;
+import org.hzero.core.helper.DetailsExtractor;
+import org.hzero.core.properties.CoreProperties;
 import org.hzero.core.util.Results;
 import org.hzero.core.base.BaseController;
 import org.hand.flashkill.domain.entity.Flashkillorder;
@@ -20,8 +26,11 @@ import io.choerodon.swagger.annotation.Permission;
 import io.swagger.annotations.ApiOperation;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
+
 /**
- *  管理 API
+ * 管理 API
  *
  * @author mengtao.yan@hand-chian.com 2019-10-14 17:12:38
  */
@@ -32,6 +41,8 @@ public class FlashkillorderController extends BaseController {
 
     @Autowired
     private FlashkillorderRepository flashkillorderRepository;
+    @Autowired
+    private FlashkillgoodsRepository flashkillgoodsRepository;
 
     @ApiOperation(value = "列表")
     @Permission(level = ResourceLevel.ORGANIZATION)
@@ -77,4 +88,75 @@ public class FlashkillorderController extends BaseController {
         return Results.success();
     }
 
+
+    @ApiOperation(value = "秒杀")
+    @Permission(level = ResourceLevel.ORGANIZATION)
+    @PostMapping("/kill/{goodsId}")
+    public ResponseEntity<Flashkillorder> kill(@PathVariable Long goodsId, HttpServletRequest request) {
+        CustomUserDetails userDetails = new DetailsExtractor(new CoreProperties()).extractDetails(request);
+        Flashkillgoods flashkillgoods = flashkillgoodsRepository.selectByPrimaryKey(goodsId);
+        Flashkillorder flashkillorder = new Flashkillorder();
+
+        if (flashkillgoods == null) {
+            throw new MessageException("找不到商品id 对应商品");
+        }
+
+        if (flashkillgoods.getInventory() <= 0) {
+            throw new MessageException("商品库存不足");
+        }
+
+        //  减少相应库存
+        flashkillgoods.setInventory(flashkillgoods.getInventory() - 1);
+        flashkillgoodsRepository.updateByPrimaryKey(flashkillgoods);
+
+        //  创建秒杀订单
+        flashkillorder.setGoodsId(goodsId);
+        flashkillorder.setUserId(userDetails.getUserId());
+        flashkillorderRepository.insertSelective(flashkillorder);
+
+        return Results.success(flashkillorder);
+    }
+
+    @ApiOperation(value = "付款")
+    @Permission(level = ResourceLevel.ORGANIZATION)
+    @PutMapping("/pay/{orderId}")
+    public ResponseEntity<Flashkillorder> kill(@PathVariable Long orderId) {
+        Flashkillorder flashkillorder = flashkillorderRepository.selectByPrimaryKey(orderId);
+
+        if (flashkillorder == null) {
+            throw new MessageException("找不到订单");
+        }
+
+        if(!Objects.equals(flashkillorder.getPay(), "T")){
+            throw new MessageException("订单状态不正确");
+        }
+
+        flashkillorder.setPay("Y");
+        flashkillorderRepository.updateByPrimaryKey(flashkillorder);
+
+        return Results.success(flashkillorder);
+    }
+
+    @ApiOperation(value = "付款失败-增加库存")
+    @Permission(level = ResourceLevel.ORGANIZATION)
+    @PutMapping("/nopay/{orderId}")
+    public ResponseEntity<Flashkillorder> nopay(@PathVariable Long orderId) {
+        Flashkillorder flashkillorder = flashkillorderRepository.selectByPrimaryKey(orderId);
+        if (flashkillorder == null) {
+            throw new MessageException("找不到订单");
+        }
+
+        if(!Objects.equals(flashkillorder.getPay(), "T")){
+            throw new MessageException("订单状态不正确");
+        }
+
+        Flashkillgoods flashkillgoods = flashkillgoodsRepository.selectByPrimaryKey(flashkillorder.getGoodsId());
+        flashkillgoods.setInventory(flashkillgoods.getInventory() +  1);
+        flashkillgoodsRepository.updateByPrimaryKey(flashkillgoods);
+
+        flashkillorder.setPay("N");
+        flashkillorderRepository.updateByPrimaryKey(flashkillorder);
+
+        return Results.success(flashkillorder);
+    }
 }

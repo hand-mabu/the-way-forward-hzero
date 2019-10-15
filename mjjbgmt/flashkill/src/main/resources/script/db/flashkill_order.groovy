@@ -1,7 +1,7 @@
 package script.db
 
 databaseChangeLog(logicalFilePath: 'script/db/flashkill_order.groovy') {
-    changeSet(author: "mengtao.yan@hand-chian.com", id: "2019-10-14-flashkill_order") {
+    changeSet(author: "mengtao.yan@hand-chian.com", id: "2019-10-15-flashkill_order") {
         def weight = 1
         if(helper.isSqlServer()){
             weight = 2
@@ -14,14 +14,17 @@ databaseChangeLog(logicalFilePath: 'script/db/flashkill_order.groovy') {
         createTable(tableName: "flashkill_order", remarks: "") {
             column(name: "ID", type: "bigint(255) unsigned", autoIncrement: true ,   remarks: "")  {constraints(primaryKey: true)} 
             column(name: "USER_ID", type: "bigint(20)",  remarks: "用户id")  {constraints(nullable:"false")}  
-            column(name: "GOODS_ID", type: "bigint(20)",  remarks: "商品id")  {constraints(nullable:"false")}  
-            column(name: "pay", type: "varchar(" + 2 * weight + ")",   defaultValue:"N",   remarks: "是否付款 Y:是 N:否")   
+            column(name: "GOODS_ID", type: "bigint(20) unsigned",  remarks: "商品id")  {constraints(nullable:"false")}  
+            column(name: "pay", type: "varchar(" + 2 * weight + ")",   defaultValue:"T",   remarks: "是否付款 T:代付款 Y:是 N:否")
             column(name: "CREATED_BY", type: "bigint(20)",   defaultValue:"-1",   remarks: "")   
             column(name: "CREATION_DATE", type: "datetime",   defaultValueComputed:"CURRENT_TIMESTAMP",   remarks: "")   
             column(name: "LAST_UPDATED_BY", type: "bigint(20)",   defaultValue:"-1",   remarks: "")   
             column(name: "LAST_UPDATE_DATE", type: "datetime",   defaultValueComputed:"CURRENT_TIMESTAMP",   remarks: "")   
             column(name: "OBJECT_VERSION_NUMBER", type: "bigint(20)",  remarks: "")   
 
+        }
+   createIndex(tableName: "flashkill_order", indexName: "flashkill_order_ibfk_1") {
+            column(name: "GOODS_ID")
         }
 
     }

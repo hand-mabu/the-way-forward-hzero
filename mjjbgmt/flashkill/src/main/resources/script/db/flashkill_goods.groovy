@@ -1,7 +1,7 @@
 package script.db
 
 databaseChangeLog(logicalFilePath: 'script/db/flashkill_goods.groovy') {
-    changeSet(author: "mengtao.yan@hand-chian.com", id: "2019-10-14-flashkill_goods") {
+    changeSet(author: "mengtao.yan@hand-chian.com", id: "2019-10-15-flashkill_goods") {
         def weight = 1
         if(helper.isSqlServer()){
             weight = 2

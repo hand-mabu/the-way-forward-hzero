@@ -14,12 +14,12 @@ import io.choerodon.mybatis.annotation.VersionAudit;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * 
  *
- * @author mengtao.yan@hand-chian.com 2019-10-14 17:12:38
+ * @author mengtao.yan@hand-chian.com 2019-10-15 10:24:39
  */
 @ApiModel("")
 @VersionAudit
@@ -57,7 +57,7 @@ public class Flashkillorder extends AuditDomain {
     @ApiModelProperty(value = "商品id",required = true)
     @NotNull
     private Long goodsId;
-   @ApiModelProperty(value = "是否付款 Y:是 N:否")    
+   @ApiModelProperty(value = "是否付款 T:代付款 Y:是 N:否")
     private String pay;
    @ApiModelProperty(value = "")    
     private Long createdBy;
