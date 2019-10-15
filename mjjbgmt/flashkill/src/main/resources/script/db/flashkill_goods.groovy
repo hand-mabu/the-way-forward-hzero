@@ -1,7 +1,7 @@
 package script.db
 
 databaseChangeLog(logicalFilePath: 'script/db/flashkill_goods.groovy') {
-    changeSet(author: "mengtao.yan@hand-chian.com", id: "2019-10-12-flashkill_goods") {
+    changeSet(author: "mengtao.yan@hand-chian.com", id: "2019-10-14-flashkill_goods") {
         def weight = 1
         if(helper.isSqlServer()){
             weight = 2
@@ -22,6 +22,7 @@ databaseChangeLog(logicalFilePath: 'script/db/flashkill_goods.groovy') {
             column(name: "CREATION_DATE", type: "datetime",   defaultValueComputed:"CURRENT_TIMESTAMP",   remarks: "")   
             column(name: "LAST_UPDATED_BY", type: "bigint(20)",   defaultValue:"-1",   remarks: "")   
             column(name: "LAST_UPDATE_DATE", type: "datetime",   defaultValueComputed:"CURRENT_TIMESTAMP",   remarks: "")   
+            column(name: "OBJECT_VERSION_NUMBER", type: "bigint(20)",  remarks: "")   
 
         }
 

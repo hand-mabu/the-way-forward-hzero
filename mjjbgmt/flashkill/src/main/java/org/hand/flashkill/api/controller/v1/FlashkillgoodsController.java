@@ -28,7 +28,7 @@ import springfox.documentation.annotations.ApiIgnore;
  */
 @Api(tags = SwaggerTags.FLASHKILL)
 @RestController("flashkillgoodsController.v1")
-@RequestMapping("/v1/{organizationId}/flashkillgoodss")
+@RequestMapping("/v1/flashkillgoodss")
 public class FlashkillgoodsController extends BaseController {
 
     @Autowired
@@ -37,7 +37,7 @@ public class FlashkillgoodsController extends BaseController {
     @ApiOperation(value = "列表")
     @Permission(level = ResourceLevel.ORGANIZATION)
     @GetMapping
-    public ResponseEntity<Page<Flashkillgoods>> list(FlashkillgoodsSearch flashkillgoodsSearch, @ApiIgnore @SortDefault(value = FlashkillgoodsSearch.FIELD_ID,
+    public ResponseEntity<Page<Flashkillgoods>> list(Long organizationId,FlashkillgoodsSearch flashkillgoodsSearch, @ApiIgnore @SortDefault(value = FlashkillgoodsSearch.FIELD_ID,
             direction = Sort.Direction.DESC) PageRequest pageRequest) {
         Flashkillgoods flashkillgoods = new Flashkillgoods();
         flashkillgoods.setGoodsName(flashkillgoodsSearch.getGoodsName());
