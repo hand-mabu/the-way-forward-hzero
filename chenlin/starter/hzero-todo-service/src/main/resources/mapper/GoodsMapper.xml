@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.hzero.todo.infra.mapper.GoodsMapper">
+
+    <select id="selectGoods" resultType="org.hzero.todo.domain.entity.Goods">
+        select
+        tt.goodsId,
+        tt.goodsNumber,
+        tt.goodsName,
+        tt.goodsDes,
+        from goods tt
+    </select>
+    <select id="selectGoodsById" resultType="org.hzero.todo.domain.entity.Goods">
+        select
+        tt.goodsId,
+        tt.goodsNumber,
+        tt.goodsName,
+        tt.goodsDes,
+        from goods tt
+        WHERE  tt.goodsId = {#goodsId}
+    </select>
+
+
+    <update id="updateNumber">
+        UPDATE
+        from goods tt
+        SET  tt.goodNumber = tt.goodNumber - 1
+        where tt.id = #{id}
+    </update>
+</mapper>

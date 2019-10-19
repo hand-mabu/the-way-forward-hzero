@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.hzero.todo.infra.mapper.GoodsMapper">
+    <resultMap id="baseResultMap" type="org.hzero.todo.domain.entity.Order">
+        <id column="orderId" property="orderId"/>
+        <result column="userId" property="userId"/>
+        <result column="goodsId" property="goodsId"/>
+        <result column="orderNum" property="orderNum"/>
+        <result column="orderDes" property="orderDes"/>
+
+    </resultMap>
+    <select id="selectOrder" resultType="org.hzero.todo.domain.entity.Order">
+        select
+        tt.orderId,
+        tt.userId,
+        tt.goodsId,
+        tt.orderNum,
+        tt.orderDes,
+        from  order tt
+        <where>
+            <if test="order.userId != null and order.userId != ''">
+                and userId like #{id}
+            </if>
+        </where>
+    </select>
+
+</mapper>
